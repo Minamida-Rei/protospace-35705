@@ -1,5 +1,5 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :deldete]
+  before_action :authenticate_user!, only: [:create, :update, :deldete, :new, :edit]
   def index
     if user_signed_in?
       @name = current_user.name
@@ -29,7 +29,7 @@ class PrototypesController < ApplicationController
 
   def edit
     @prototype = Prototype.find(params[:id])
-    unless user_signed_in?
+    unless user_signed_in? && current_user.id == @prototype.user.id
       redirect_to action: :index
     end
   end
